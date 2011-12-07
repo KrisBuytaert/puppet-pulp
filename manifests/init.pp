@@ -14,6 +14,7 @@
 
 
 
+
 class pulp {
 
   package {
@@ -25,31 +26,35 @@ class pulp {
 
 
    
-  service { 
-                  "httpd":
-                      ensure => "running";
+   service { 
 
-# When you run into AutoReconnect: could not find master/primary
-# It means mongodb ain't running 
+	# Move httpd out to it's own module 
+        "httpd":
+              ensure => "running";
 
-                  "mongod":
-                      ensure => "running";
-	
-		"pulp-server":
+		# When you run into AutoReconnect: could not find master/primary
+		# It means mongodb ain't running 
+
+	# Move mongo out ot is's own module 
+        "mongod":
+              ensure => "running";
+
+	"pulp-server":
                       ensure => "running",
-		      require => File['/var/lib/mongodb/'];
+		      require => [File['/var/lib/pulp/init.flag'],Package['pulp']];
 	
         }
    
-   file {"/var/lib/mongodb/":
+   file {
+	"/var/lib/pulp/init.flag":
 	require => Exec["pulpinit"]
    } 
 
    exec { "pulpinit":
-	
  	command => "/etc/init.d/pulp-server init ",
     	refreshonly => true,
-    	creates => "/var/lib/mongodb",
+    	creates => "/var/lib/pulp/.inited",
+	require => Package['pulp'],
    }
 
    
