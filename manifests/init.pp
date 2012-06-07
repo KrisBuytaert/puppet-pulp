@@ -1,55 +1,54 @@
-# Class: pulp
+# = Class: pulp
 #
-# This module manages pulp
+# == This module manages pulp
 #
-# Parameters:
+# == Parameters
 #
-# Actions:
+# == Actions
 #
-# Requires:
+# == Requires
 #
-# Sample Usage:
+# == Sample Usage
 #
-# [Remember: No empty lines between comments and class definition]
-
-
-
-
+# == Todo
+#
+#  * Add documentation.
+#
 class pulp {
   package {
     'pulp':
-      ensure => "present";
-    "pulp-admin":
-      ensure => "present";
+      ensure => 'present';
+    'pulp-admin':
+      ensure => 'present';
   }
 
 
 
   service {
     # Move httpd out to it's own module
-    "httpd":
-    ensure => "running";
+    'httpd':
+      ensure => 'running';
 
     # When you run into AutoReconnect: could not find master/primary
     # It means mongodb ain't running
     # Move mongo out ot is's own module
-    "mongod":
-      ensure => "running";
+    'mongod':
+      ensure => 'running';
 
-    "pulp-server":
-      ensure  => "running",
+    'pulp-server':
+      ensure  => 'running',
       require => [File['/var/lib/pulp/init.flag'],Package['pulp']];
   }
 
   file {
-    "/var/lib/pulp/init.flag":
-      require => Exec["pulpinit"]
+    '/var/lib/pulp/init.flag':
+      require => Exec['pulpinit']
   }
 
-  exec { "pulpinit":
-    command     => "/etc/init.d/pulp-server init ",
+  exec { 'pulpinit':
+    command     => '/etc/init.d/pulp-server init ',
     refreshonly => true,
-    creates     => "/var/lib/pulp/.inited",
+    creates     => '/var/lib/pulp/.inited',
     require     => Package['pulp'],
   }
 }
