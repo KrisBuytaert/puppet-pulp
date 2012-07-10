@@ -25,10 +25,6 @@ class pulp {
 
 
   service {
-    # Move httpd out to it's own module
-    'httpd':
-      ensure => 'running';
-
     # When you run into AutoReconnect: could not find master/primary
     # It means mongodb ain't running
     # Move mongo out ot is's own module
