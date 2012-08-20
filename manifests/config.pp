@@ -16,6 +16,7 @@
 #
 class pulp::config {
 
+  # Set correct hostname
   file { '/etc/pulp/admin/admin.conf':
     ensure     => 'file',
     group      => '0',
@@ -23,6 +24,7 @@ class pulp::config {
     owner      => '0',
   }
 
+  # Enable task list by default 
   file { '/etc/pulp/admin/task.conf':
     ensure     => 'file',
     group      => '0',
