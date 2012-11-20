@@ -3,8 +3,10 @@
 #     port : The port providing the RESTful API
 
 [server]
-host = <%= pulpserverhost %>
-port = 443
+<% if @pulp_server_host -%>
+host = <%= pulp_server_host %>
+<% end -%>
+port = <%= pulp_server_port %>
 api_prefix = /pulp/api
 
 # -----------------------
