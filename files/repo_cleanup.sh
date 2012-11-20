@@ -87,7 +87,7 @@ CSV=`pulp-admin content list --repoid $PURGE_REPOID`
 for i in `cat /tmp/oldpkgs`; do
   echo $CSV|tr ' ' '\n'|grep "$i" >> /tmp/oldpkgs.csv
 done
-#echo 'n'|pulp-admin repo remove_package --csv /tmp/oldpkgs.csv --id $PURGE_REPOID || die 6
-#pulp-admin repo generate_metadata --id $PURGE_REPOID
+echo 'n'|pulp-admin repo remove_package --csv /tmp/oldpkgs.csv --id $PURGE_REPOID || die 6
+pulp-admin repo generate_metadata --id $PURGE_REPOID
 
 echo "Done archiving old packages from $PURGE_REPOID to $ARCHIVE_REPOID" && exit 0
