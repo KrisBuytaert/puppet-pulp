@@ -22,7 +22,10 @@ class pulp::package {
       ensure => 'present';
   }
 
-
+  file {
+    '/var/lib/pulp/init.flag':
+      require => Exec['pulpinit']
+  }
 
 
   exec { 'pulpinit':
