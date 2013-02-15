@@ -22,12 +22,17 @@ class pulp::service {
     # Move mongo out ot is's own module
     'mongod':
       ensure  => 'running',
-      enabled => true;
+      enable  => true,
+      require => Class['package'];
+    'qpidd':
+      ensure  => 'running',
+      enable  => true,
+      require => Class['package'];
 
     'httpd':
       ensure  => 'running',
-      enabled => true,
-      require => [File['/var/lib/pulp/init.flag'], Class['package']];
+      enable  => true,
+      require => [File['/var/lib/pulp/init.flag'], Class['package'], Service['qpidd']];
   }
 
 }
