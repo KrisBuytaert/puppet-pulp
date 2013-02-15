@@ -25,7 +25,7 @@ class pulp::service {
 
     'pulp-server':
       ensure  => 'running',
-      require => [File['/var/lib/pulp/init.flag'],Package['pulp']];
+      require => [File['/var/lib/pulp/init.flag'], Class['package']];
   }
 
 }
