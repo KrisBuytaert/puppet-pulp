@@ -31,10 +31,31 @@ class pulp::server (
     ensure => installed,
   }
   file { '/etc/pulp/server.conf':
-    owner => 'root',
-    group => 'root',
-    mode => 0644,
+    owner   => 'root',
+    group   => 'root',
+    mode    => 0644,
     content => template('pulp/server.conf.erb'),
   }
-
+  service { 'httpd':
+    ensure => 'running',
+    enable => $enabled,
+  }
+  service { 'mongod':
+    ensure => 'running',
+    enable => $enabled,
+  }
+  service { 'qpidd':
+    ensure => 'running',
+    enable => $eanbled,
+  }
+  file { '/var/lib/pulp/init.flag':
+    ensure  => 'file',
+    notify  => Exec['manage_pulp_databases']
+  }
+  exec { 'manage_pulp_databases':
+    command     => '/usr/bin/pulp-manage-db ',
+    refreshonly => true,
+    creates     => '/var/lib/pulp/.inited',
+    require     => Package['pulp-server'],
+  }
 }
