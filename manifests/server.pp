@@ -16,12 +16,12 @@
 #
 class pulp::server (
   $mail_enabled     = 'false',
-  $mail_host        = 'localhost',
+  $mail_host        = 'localhost.localdomain',
   $mail_host_port   = '25',
   $mail_from        = undef,
-  $mongodb_host     = 'localhost',
+  $mongodb_host     = 'localhost.localdomain',
   $mongodb_port     = '27017',
-  $qpid_server      = 'localhost',
+  $qpid_server      = 'localhost.localdomain',
   $qpid_port        = '5672',
   $pulp_server_name = false
 ) {
