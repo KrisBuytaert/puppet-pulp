@@ -15,7 +15,7 @@
 
 [database]
 name: pulp_database
-seeds: localhost:27017
+seeds: <%= mongodb_host %>:<%= mongodb_port %>
 operation_retries: 2
 
 
@@ -32,7 +32,9 @@ operation_retries: 2
 # debugging_mode: boolean; toggles Pulp's debugging capabilities
 
 [server]
-# server_name: server_hostname
+<% if pulp_server_name %>
+    server_name: <%= pulp_server_name %>
+<% end -%>
 key_url: /pulp/gpg
 ks_url: /pulp/ks
 default_login: admin
@@ -158,151 +160,151 @@ repo_group_publish_history: 60
 # base: dc=localhost
 # tls: no
 # default_role: <role-id>
-  # filter: (gidNumber=200)
+# filter: (gidNumber=200)
 
 
-  # = OAuth =
-  #
-  # Uncomment the below section with appropriate values to use OAuth
-  # authentication.
-  #
-  # enabled: boolean; controls whether OAuth authentication is enabled
-  #
-  # oauth_key: string; key to enable OAuth style authentication
-  #
-  # oauth_secret: string; shared secret that can be used for OAuth style
-  #     authentication
+# = OAuth =
+#
+# Uncomment the below section with appropriate values to use OAuth
+# authentication.
+#
+# enabled: boolean; controls whether OAuth authentication is enabled
+#
+# oauth_key: string; key to enable OAuth style authentication
+#
+# oauth_secret: string; shared secret that can be used for OAuth style
+#     authentication
 
-  # [oauth]
-  # enabled: true
-  # oauth_key:
-  # oauth_secret:
-
-
-  # = Logging =
-  #
-  # Controls the logging behavior of Pulp.
-  #
-  # config: full path to the logging config file for the Pulp server
-  #
-  # db_config: full path to the logging config file for database specific
-  #     operations
-
-  [logs]
-  config: /etc/pulp/logging/basic.cfg
-  db_config: /etc/pulp/logging/db.cfg
+# [oauth]
+# enabled: true
+# oauth_key:
+# oauth_secret:
 
 
-  # = Messaging =
-  #
-  # Controls Pulp's configuration of QPID for remote messaging.
-  #
-  # url: the url used to contact the broker in the form
-  #     <transport>://<host>:<port>; transport can be 'tcp' or 'ssl'
-  #
-  # cacert: full path to PEM encoded CA certificate file, used when Pulp connects
-  #     to a broker over SSL
-  #
-  # clientcert: full path to PEM encoded file containing both the private key and
-  #     certificate Pulp should present to the broker to be authenticated
-  #
-  # topic_exchange: name of the exchange to use; must be a topic exchange;
-  #     defaults to "amq.topic", which is a default exchange that
-  #     is guaranteed to exist on the broker
-  #
-  # The format for the following timeouts is <start>:<duration>. The <start>
-  # timeout is the number of seconds to wait for the consumer to acknowledge and
-  # begin handling the request before indicating a timeout has occurred. The
-  # <duration> timeout is how long the consumer is allowed to act on the request
-  # before the server considers the entire request timed out.
-  #
-  # unit_install_timeout: messaging timeout in seconds for unit installs
-  #
-  # unit_update_timeout: messaging timeout in seconds for unit updates
-  #
-  # unit_uninstall_timeout: messaging timeout in seconds for unit uninstalls
-  #
-  # bind_timeout: messaging timeout in seconds for bind requests
-  #
-  # unbind_timeout: messaging timeout in seconds for unbind requests
+# = Logging =
+#
+# Controls the logging behavior of Pulp.
+#
+# config: full path to the logging config file for the Pulp server
+#
+# db_config: full path to the logging config file for database specific
+#     operations
 
-  [messaging]
-  url: tcp://localhost:5672
-  cacert: /etc/pki/qpid/ca/ca.crt
-  clientcert: /etc/pki/qpid/client/client.pem
-  topic_exchange: 'amq.topic'
-  install_timeout: 10:600
-  update_timeout: 10:600
-  uninstall_timeout: 10:600
-  bind_timeout: 2592000:600
-  unbind_timeout: 2592000:600
+[logs]
+config: /etc/pulp/logging/basic.cfg
+db_config: /etc/pulp/logging/db.cfg
 
 
-  # = Scheduler =
-  #
-  # Controls the scheduling portion of Pulp's asynchronous dispatch subsystem.
-  #
-  # dispatch_interval: float; seconds to wait between checking for the presence of
-  #     scheduled calls to dispatch
+# = Messaging =
+#
+# Controls Pulp's configuration of QPID for remote messaging.
+#
+# url: the url used to contact the broker in the form
+#     <transport>://<host>:<port>; transport can be 'tcp' or 'ssl'
+#
+# cacert: full path to PEM encoded CA certificate file, used when Pulp connects
+#     to a broker over SSL
+#
+# clientcert: full path to PEM encoded file containing both the private key and
+#     certificate Pulp should present to the broker to be authenticated
+#
+# topic_exchange: name of the exchange to use; must be a topic exchange;
+#     defaults to "amq.topic", which is a default exchange that
+#     is guaranteed to exist on the broker
+#
+# The format for the following timeouts is <start>:<duration>. The <start>
+# timeout is the number of seconds to wait for the consumer to acknowledge and
+# begin handling the request before indicating a timeout has occurred. The
+# <duration> timeout is how long the consumer is allowed to act on the request
+# before the server considers the entire request timed out.
+#
+# unit_install_timeout: messaging timeout in seconds for unit installs
+#
+# unit_update_timeout: messaging timeout in seconds for unit updates
+#
+# unit_uninstall_timeout: messaging timeout in seconds for unit uninstalls
+#
+# bind_timeout: messaging timeout in seconds for bind requests
+#
+# unbind_timeout: messaging timeout in seconds for unbind requests
 
-  [scheduler]
-  dispatch_interval: 30
+[messaging]
+url: tcp://<%= qpid_server %>:<%= qpid_port %>
+cacert: /etc/pki/qpid/ca/ca.crt
+clientcert: /etc/pki/qpid/client/client.pem
+topic_exchange: 'amq.topic'
+install_timeout: 10:600
+update_timeout: 10:600
+uninstall_timeout: 10:600
+bind_timeout: 2592000:600
+unbind_timeout: 2592000:600
+
+
+# = Scheduler =
+#
+# Controls the scheduling portion of Pulp's asynchronous dispatch subsystem.
+#
+# dispatch_interval: float; seconds to wait between checking for the presence of
+#     scheduled calls to dispatch
+
+[scheduler]
+dispatch_interval: 30
 
 
 
-  # = Asynchronous Tasks =
-  #
-  # Controls the behavior of individual tasks in Pulp's asynchronous dispatch
-  # subsystem.
-  #
-  # concurrency_threshold: maximum sum weight of tasks to run in parallel;
-  #     base task weight is 1
-  #
-  # dispatch_interval: float; seconds to wait before checking for new to tasks
-  #     to dispatch
-  #
-  # archived_call_lifetime: the amount of time in hours to store archived call
-  #     requests and call reports
-  #
-  # consumer_content_weight: concurrency weight of consumer content tasks
-  #     (install, update, uninstall)
-  #
-  # create_weight: concurrency weight of all resource creation tasks
-  #
-  # publish_weight: concurrency weight of repository publish tasks
-  #
-  # sync_weight: concurrency weight of repository sync tasks
+# = Asynchronous Tasks =
+#
+# Controls the behavior of individual tasks in Pulp's asynchronous dispatch
+# subsystem.
+#
+# concurrency_threshold: maximum sum weight of tasks to run in parallel;
+#     base task weight is 1
+#
+# dispatch_interval: float; seconds to wait before checking for new to tasks
+#     to dispatch
+#
+# archived_call_lifetime: the amount of time in hours to store archived call
+#     requests and call reports
+#
+# consumer_content_weight: concurrency weight of consumer content tasks
+#     (install, update, uninstall)
+#
+# create_weight: concurrency weight of all resource creation tasks
+#
+# publish_weight: concurrency weight of repository publish tasks
+#
+# sync_weight: concurrency weight of repository sync tasks
 
-  [tasks]
-  concurrency_threshold: 9
-  dispatch_interval: 0.5
-  archived_call_lifetime: 48
-  consumer_content_weight: 0
-  create_weight: 0
-  publish_weight: 1
-  sync_weight: 2
+[tasks]
+concurrency_threshold: 9
+dispatch_interval: 0.5
+archived_call_lifetime: 48
+consumer_content_weight: 0
+create_weight: 0
+publish_weight: 1
+sync_weight: 2
 
 
-  # = Email =
-  #
-  # Settings that allow the system to send email. It is recommended that
-  # the system relay through a local MTA on the machine. Pulp does not retry in
-  # case of error, so it is important to have a real MTA available locally.
-  #
-  # If there is a need to test email sending, it is recommended to run this:
-  #   $ python -m smtpd -n -c DebuggingServer localhost:1025
-  # which will write each message to stdout.
-  #
-  # host: host name of the MTA pulp should relay through
-  #
-  # port: destination port to connect on
-  #
-  # from: the "From" address of each email the system sends
-  #
-  # enabled: booleanl controls whether or not emails will be sent
+# = Email =
+#
+# Settings that allow the system to send email. It is recommended that
+# the system relay through a local MTA on the machine. Pulp does not retry in
+# case of error, so it is important to have a real MTA available locally.
+#
+# If there is a need to test email sending, it is recommended to run this:
+#   $ python -m smtpd -n -c DebuggingServer localhost:1025
+# which will write each message to stdout.
+#
+# host: host name of the MTA pulp should relay through
+#
+# port: destination port to connect on
+#
+# from: the "From" address of each email the system sends
+#
+# enabled: boolean controls whether or not emails will be sent
 
-  [email]
-  host: localhost
-  port: 25
-  from: no-reply@your.domain
-  enabled: false
+[email]
+host: <%= mail_host %>
+port: <%= mail_host_port %>
+from: <%= mail_from %>
+enabled: <%= mail_enabled %>
