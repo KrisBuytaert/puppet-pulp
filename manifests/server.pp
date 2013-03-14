@@ -15,15 +15,17 @@
 #  * Add documentation.
 #
 class pulp::server (
-  $mail_enabled     = 'false',
-  $mail_host        = 'localhost.localdomain',
-  $mail_host_port   = '25',
-  $mail_from        = undef,
-  $mongodb_host     = 'localhost.localdomain',
-  $mongodb_port     = '27017',
-  $qpid_server      = 'localhost.localdomain',
-  $qpid_port        = '5672',
-  $pulp_server_name = false
+  $mail_enabled      = 'false',
+  $mail_host         = 'localhost.localdomain',
+  $mail_host_port    = '25',
+  $mail_from         = undef,
+  $mongodb_host      = 'localhost.localdomain',
+  $mongodb_port      = '27017',
+  $qpid_server       = 'localhost.localdomain',
+  $qpid_port         = '5672',
+  $pulp_server_name  = false,
+  $migrate_attempts  = '3',
+  $migrate_wait_secs = '5'
 ) {
   $packagelist = ['pulp-puppet-plugins', 'pulp-rpm-plugins', 'pulp-selinux', 'pulp-server']
 
@@ -57,7 +59,7 @@ class pulp::server (
     refreshonly => true,
     creates     => '/var/lib/pulp/.inited',
     require     => [ Package['pulp-server'], Service['mongod']],
-    tries       => '3',
-    try_sleep   => '5',
+    tries       => $migrate_attempts,
+    try_sleep   => $migrate_wait_secs,
   }
 }
