@@ -4,6 +4,40 @@
 #
 # == Parameters
 #
+# [*mail_enabled*]
+#   Enable smtp mail.
+#
+# [*mail_host*]
+#   IP address or FQDN of SMTP mail host.
+#
+# [*mail_host_port*]
+#   SMTP port (default: 25)
+#
+# [*mail_from*]
+#   Set mail from email address.
+#
+# [*mongodb_host*]
+#   MongoDB database host (default: localhost.localdomain)
+#
+# [*mongodb_port*]
+#   MongoDB port (default: 27017)
+#
+# [*qpid_server*]
+#   Qpid messaging host.
+#
+# [*qpid_port*]
+#   Qpid port (default: 5672)
+#
+# [*pulp_server_name*]
+#   Pulp server host.
+#
+# [*migrate_attempts*]
+#   Maximum number of attempts to execute pulp-manage-db to initialize the new
+#   types in Pulp’s database.
+#
+# [*migrate_wait_secs*]
+#   Seconds to wait between retry attempts to execute pulp-manage-db.
+#
 # == Actions
 #
 # == Requires
