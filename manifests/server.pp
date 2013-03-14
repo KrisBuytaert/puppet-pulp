@@ -56,6 +56,8 @@ class pulp::server (
     command     => '/usr/bin/pulp-manage-db ',
     refreshonly => true,
     creates     => '/var/lib/pulp/.inited',
-    require     => Package['pulp-server'],
+    require     => [ Package['pulp-server'], Service['mongod']],
+    tries       => '3',
+    try_sleep   => '5',
   }
 }
