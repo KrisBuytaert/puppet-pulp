@@ -32,4 +32,15 @@ class pulp::config {
     owner      => '0',
   }
 
+  file {
+    '/var/lib/pulp/init.flag':
+      require => Exec['pulpinit']
+  }
+
+
+  exec { 'pulpinit':
+    command     => '/usr/bin/pulp-manage-db && touch /var/lib/pulp/init.flag',
+    creates     => '/var/lib/pulp/init.flag',
+    require     => [Class['package'], Service['mongod'],],
+  }
 }

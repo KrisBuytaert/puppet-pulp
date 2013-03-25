@@ -21,11 +21,18 @@ class pulp::service {
     # It means mongodb ain't running
     # Move mongo out ot is's own module
     'mongod':
-      ensure => 'running';
-
-    'pulp-server':
       ensure  => 'running',
-      require => [File['/var/lib/pulp/init.flag'],Package['pulp']];
+      enable  => true,
+      require => Class['package'];
+    'qpidd':
+      ensure  => 'running',
+      enable  => true,
+      require => Class['package'];
+
+    'httpd':
+      ensure  => 'running',
+      enable  => true,
+      require => [File['/var/lib/pulp/init.flag'], Class['package'], Service['qpidd']];
   }
 
 }
