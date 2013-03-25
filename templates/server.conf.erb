@@ -32,8 +32,8 @@ operation_retries: 2
 # debugging_mode: boolean; toggles Pulp's debugging capabilities
 
 [server]
-<% if pulp_server_name %>
-    server_name: <%= pulp_server_name %>
+<% if pulp_server_host %>
+server_name: <%= pulp_server_host %>
 <% end -%>
 key_url: /pulp/gpg
 ks_url: /pulp/ks

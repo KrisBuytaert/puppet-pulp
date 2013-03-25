@@ -57,7 +57,7 @@ class pulp::server (
   $mongodb_port      = '27017',
   $qpid_server       = 'localhost.localdomain',
   $qpid_port         = '5672',
-  $pulp_server_name  = false,
+  $pulp_server_host  = 'localhost.localdomain',
   $migrate_attempts  = '3',
   $migrate_wait_secs = '5'
 ) {
@@ -92,6 +92,7 @@ class pulp::server (
     command     => '/usr/bin/pulp-manage-db ',
     refreshonly => true,
     creates     => '/var/lib/pulp/.inited',
+    notify      => Service['httpd'],
     require     => [ Package['pulp-server'], Service['mongod']],
     tries       => $migrate_attempts,
     try_sleep   => $migrate_wait_secs,
