@@ -4,14 +4,90 @@
 #
 # == Parameters
 #
+# [*pulp_version*]
+#   Version of stable pulp to install either '1' or '2'.
+#   The default is to install Pulp Project version '1'.
+#
+# [*pulp_server*]
+#   Install the pulp server as long as pulp_version is set to '2'.
+#
+# [*pulp_client*]
+#   Install the pulp client as long as pulp_version is set to '2'.
+#
+# [*pulp_admin*]
+#   Install the pulp admin tool as long as pulp_version is set to '2'.
+#
+# [*pulp_server_host*]
+#   Hostname of pulp server.
+#
+# [*pulp_server_port*]
+#   TCP/IP port of pulp server.
+#
+# [*mail_enabled*]
+#   Allow pulp to send outgoing email.
+#
+# [*mail_host*]
+#   Hostname of email server.
+#
+# [*mail_host_port*]
+#   Email server TCP/IP port.
+#
+# [*mail_from*]
+#   From email address of pulp administrator.
+#
+# [*mongodb_host*]
+#   MongoDB server hostname or ip address.
+#
+# [*mongodb_port*]
+#   TCP/IP port for MongoDB host.
+#
+# [*qpid_server*]
+#   Apache Qpid AMQP host.
+#
+# [*qpid_port*]
+#   TCP/IP port for AMQP host.
+#
+# [*migrate_attempts*]
+#   Number of attempts to execute pulp-manage-db successfully.
+#
+# [*migrate_wait_secs*]
+#   Number of seconds to wait between pulp-manage-db attempts.
+#
+#
 # == Actions
 #
 # == Requires
 #
+# puppetlab/puppetlabs-stdlib
+#
 # == Sample Usage
+#
+# Install pulp server v.1:
+#
+# include pulp
+#
+# Install pulp server v.2:
+#
+# class { 'pulp':
+#   pulp_server => true
+# }
+#
+# Install pulp client v.2:
+#
+# class { 'pulp':
+#   pulp_client => true
+# }
+#
+# Install pulp server with admin client v.2:
+#
+# class { 'pulp':
+#   pulp_server => true,
+#   pulp_admin  => true
+# }
 #
 # == Todo
 #
+#  * Add pulp version 1. repo
 #  * Add documentation.
 #
 class pulp (
