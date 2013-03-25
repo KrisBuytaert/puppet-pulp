@@ -2,7 +2,7 @@
 class pulp::admin (
 $pulp_server_host = 'localhost.localdomain',
 $pulp_server_port = '443'
-) inherits pulp::params {
+) {
 
   $packagelist = ['pulp-admin-client', 'pulp-puppet-admin-extensions','pulp-rpm-admin-extensions']
   package { $packagelist:
