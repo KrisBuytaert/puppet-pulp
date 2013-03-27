@@ -2,9 +2,8 @@
 class pulp::client (
   $pulp_server_host = undef,
   $pulp_server_port = '443'
-) inherits pulp::params {
-  require pulp::repo
-  $packagelist = ['pulp-rpm-consumer-client','pulp-rpm-agent']
+) {
+  $packagelist = ['pulp-agent', 'pulp-consumer-client','pulp-puppet-handlers', 'pulp-rpm-consumer-extensions', 'pulp-rpm-handlers']
   package { $packagelist:
     ensure  => 'installed',
   }

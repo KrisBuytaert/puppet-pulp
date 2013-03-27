@@ -1,11 +1,11 @@
 name    'puppet-pulp'
 version '0.0.1'
-source 'UNKNOWN'
-author 'puppet'
+source 'git@github.com:KrisBuytaert/puppet-pulp.git'
+author 'KrisBuytaert'
 license 'UNKNOWN'
-summary 'UNKNOWN'
-description 'UNKNOWN'
-project_page 'UNKNOWN'
+summary 'Pulp Module'
+description 'Pulp Project Module for CentOS, RHEL OEL & Amazon Linux'
+project_page 'https://github.com/KrisBuytaert/puppet-pulp'
 
 ## Add dependencies, if any:
-# dependency 'username/name', '>= 1.2.0'
+dependency 'puppetlabs/stdlib', '>= 0.1.6'
