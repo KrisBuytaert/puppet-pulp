@@ -23,6 +23,9 @@
 # [*pulp_server_port*]
 #   TCP/IP port of pulp server.
 #
+#  [*repo_enabled*]
+#    Enable pulp yum repository.
+#
 # [*mail_enabled*]
 #   Allow pulp to send outgoing email.
 #
@@ -78,11 +81,12 @@
 #   pulp_client => true
 # }
 #
-# Install pulp server with admin client v.2:
+# Install pulp server with admin client v.2 and repository enabled:
 #
 # class { 'pulp':
-#   pulp_server => true,
-#   pulp_admin  => true
+#   pulp_server  => true,
+#   pulp_admin   => true,
+#   repo_enabled => true
 # }
 #
 # == Todo
@@ -97,6 +101,7 @@ class pulp (
   $pulp_admin        = false,
   $pulp_server_host  = 'localhost.localdomain',
   $pulp_server_port  = '443',
+  $repo_enabled      = false,
   $mail_enabled      = 'false',
   $mail_host         = 'localhost.localdomain',
   $mail_host_port    = '25',
@@ -114,6 +119,7 @@ class pulp (
   validate_bool($pulp_server)
   validate_bool($pulp_client)
   validate_bool($pulp_admin)
+  validate_bool($repo_enabled)
   validate_re($mail_enabled, [ '^true$', '^false$' ])
 
   anchor{ 'pulp::begin': }
@@ -127,7 +133,8 @@ class pulp (
   }
   if $pulp_version == '2' {
     class { 'pulp::repo':
-      require => Anchor['pulp::end']
+      repo_enabled => $repo_enabled,
+      require      => Anchor['pulp::end']
     }
     if $pulp_server == true {
       class { 'pulp::server':
