@@ -72,18 +72,21 @@
 # Install pulp server v.2:
 #
 # class { 'pulp':
-#   pulp_server => true
+#   pulp_version => '2',
+#   pulp_server  => true
 # }
 #
 # Install pulp client v.2:
 #
 # class { 'pulp':
-#   pulp_client => true
+#   pulp_version => '2',
+#   pulp_client  => true
 # }
 #
 # Install pulp server with admin client v.2 and repository enabled:
 #
 # class { 'pulp':
+#   pulp_version => '2',
 #   pulp_server  => true,
 #   pulp_admin   => true,
 #   repo_enabled => true
@@ -92,7 +95,7 @@
 # == Todo
 #
 #  * Add pulp version 1. repo
-#  * Add documentation.
+#  * Add README.md content
 #
 class pulp (
   $pulp_version      = '1',
