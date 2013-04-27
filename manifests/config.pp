@@ -1,19 +1,4 @@
-# = Class: pulp
-#
-# == This module manages pulp
-#
-# == Parameters
-#
-# == Actions
-#
-# == Requires
-#
-# == Sample Usage
-#
-# == Todo
-#
-#  * Add documentation.
-#
+# = Class: pulp::config
 class pulp::config {
 
   # Set correct hostname
