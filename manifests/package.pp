@@ -1,19 +1,4 @@
-# = Class: pulp
-#
-# == This module manages pulp
-#
-# == Parameters
-#
-# == Actions
-#
-# == Requires
-#
-# == Sample Usage
-#
-# == Todo
-#
-#  * Add documentation.
-#
+# = Class: pulp::package
 class pulp::package {
   package {
     'pulp':
@@ -26,7 +11,6 @@ class pulp::package {
     '/var/lib/pulp/init.flag':
       require => Exec['pulpinit']
   }
-
 
   exec { 'pulpinit':
     command     => '/etc/init.d/pulp-server init && touch /var/lib/pulp/init.flag',
