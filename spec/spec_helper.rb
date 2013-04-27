@@ -1,18 +1,12 @@
-require 'pathname'
-dir = Pathname.new(__FILE__).parent
-$LOAD_PATH.unshift(dir, dir + 'lib', dir + '../lib')
-
-require 'mocha'
+#noinspection RubyResolve
 require 'puppet'
-gem 'rspec', '=1.2.9'
-require 'spec/autorun'
+require 'rspec'
+require 'rspec-puppet'
+require 'puppetlabs_spec_helper/module_spec_helper'
 
-Spec::Runner.configure do |config|
-    config.mock_with :mocha
-end
+fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
 
-# We need this because the RAL uses 'should' as a method.  This
-# allows us the same behaviour but with a different method name.
-class Object
-    alias :must :should
+RSpec.configure do |c|
+  c.module_path = File.join(fixture_path, 'modules')
+  c.manifest_dir = File.join(fixture_path, 'manifests')
 end
