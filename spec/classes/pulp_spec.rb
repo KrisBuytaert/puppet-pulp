@@ -31,5 +31,11 @@ describe 'pulp', :type => :class do
                     :owner  => '0'
                 )
     }
+    it { should contain_service('mongod').with( :ensure => 'running') }
+    it { should contain_service('pulp-server').with(
+                    :ensure  => 'running',
+                    :require => '[File[/var/lib/pulp/init.flag]{:path=>"/var/lib/pulp/init.flag"}, Package[pulp]{:name=>"pulp"}]'
+                )
+    }
   end
 end
