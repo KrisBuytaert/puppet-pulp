@@ -17,5 +17,19 @@ describe 'pulp', :type => :class do
     it { should contain_package('pulp-admin').with_ensure('present') }
     it { should contain_file('/var/lib/pulp/init.flag').with( :require => 'Exec[pulpinit]') }
     it { should contain_exec('pulpinit').with( :creates => '/var/lib/pulp/init.flag') }
+    it { should contain_file('/etc/pulp/admin/admin.conf').with(
+                    :ensure => 'file',
+                    :group  => '0',
+                    :mode   => '0644',
+                    :owner  => '0'
+                )
+    }
+    it { should contain_file('/etc/pulp/admin/task.conf').with(
+                    :ensure => 'file',
+                    :group  => '0',
+                    :mode   => '0644',
+                    :owner  => '0'
+                )
+    }
   end
 end
