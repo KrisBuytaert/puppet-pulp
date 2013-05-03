@@ -165,4 +165,41 @@ describe 'pulp', :type => :class do
     it { should contain_file('/etc/pulp/admin/admin.conf').with_content(/port\s=\s443/)}
   end
 
+  context 'Install specific package version of pulp server version 2' do
+    let :fact do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_server  => true,
+        :package_version => '2.1.0'
+    }
+    end
+
+    it { should contain_package('pulp-server').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-selinux').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-plugins').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-plugins').with( :ensure => '2.1.0') }
+  end
+
+  context 'Install default package version of pulp server version 2' do
+    let :fact do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_server  => true
+    }
+    end
+
+    it { should contain_package('pulp-server').with( :ensure => 'installed') }
+    it { should contain_package('pulp-selinux').with( :ensure => 'installed') }
+    it { should contain_package('pulp-rpm-plugins').with( :ensure => 'installed') }
+    it { should contain_package('pulp-puppet-plugins').with( :ensure => 'installed') }
+  end
+
 end
