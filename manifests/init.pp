@@ -56,6 +56,9 @@
 # [*migrate_wait_secs*]
 #   Number of seconds to wait between pulp-manage-db attempts.
 #
+# [*package_version*]
+#   Set installation version e.g. 2.1.0, installed or latest.
+#   Current supported under pulp v2 only.
 #
 # == Actions
 #
@@ -114,7 +117,8 @@ class pulp (
   $qpid_server       = 'localhost.localdomain',
   $qpid_port         = '5672',
   $migrate_attempts  = '3',
-  $migrate_wait_secs = '5'
+  $migrate_wait_secs = '5',
+  $package_version   = 'installed'
 ) {
 
   #Validation
@@ -123,6 +127,7 @@ class pulp (
   validate_bool($pulp_client)
   validate_bool($pulp_admin)
   validate_bool($repo_enabled)
+  validate_re($package_version, ['^installed$', '^latest$', '^2\.'])
   validate_re($mail_enabled, [ '^true$', '^false$' ])
 
   anchor{ 'pulp::begin': }
@@ -151,6 +156,7 @@ class pulp (
         pulp_server_host  => $pulp_server_host,
         migrate_attempts  => $migrate_attempts,
         migrate_wait_secs => $migrate_wait_secs,
+        package_version   => $package_version,
         require           => Class['pulp::repo']
       }
     }
@@ -158,6 +164,7 @@ class pulp (
       class { 'pulp::client':
         pulp_server_host => $pulp_server_host,
         pulp_server_port => $pulp_server_port,
+        package_version  => $package_version,
         require          => Class['pulp::repo']
       }
     }
@@ -165,6 +172,7 @@ class pulp (
       class { 'pulp::admin':
         pulp_server_host => $pulp_server_host,
         pulp_server_port => $pulp_server_port,
+        package_version  => $package_version,
         require          => Class['pulp::repo']
       }
     }

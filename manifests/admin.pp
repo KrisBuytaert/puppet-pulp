@@ -1,12 +1,13 @@
 # class pulp::admin
 class pulp::admin (
 $pulp_server_host = 'localhost.localdomain',
-$pulp_server_port = '443'
+$pulp_server_port = '443',
+$package_version   = 'installed'
 ) {
 
   $packagelist = ['pulp-admin-client', 'pulp-puppet-admin-extensions','pulp-rpm-admin-extensions']
   package { $packagelist:
-    ensure  => 'installed',
+    ensure  => $package_version,
   }
   file { '/etc/pulp/admin/admin.conf':
     ensure  => 'file',

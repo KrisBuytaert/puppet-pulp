@@ -38,6 +38,9 @@
 # [*migrate_wait_secs*]
 #   Seconds to wait between retry attempts to execute pulp-manage-db.
 #
+# [*package_version*]
+#   Set installation version e.g. 2.1.0, installed or latest.
+#
 # == Actions
 #
 # == Requires
@@ -45,8 +48,6 @@
 # == Sample Usage
 #
 # == Todo
-#
-#  * Add documentation.
 #
 class pulp::server (
   $mail_enabled      = 'false',
@@ -59,12 +60,13 @@ class pulp::server (
   $qpid_port         = '5672',
   $pulp_server_host  = 'localhost.localdomain',
   $migrate_attempts  = '3',
-  $migrate_wait_secs = '5'
+  $migrate_wait_secs = '5',
+  $package_version   = 'installed'
 ) {
   $packagelist = ['pulp-puppet-plugins', 'pulp-rpm-plugins', 'pulp-selinux', 'pulp-server']
 
   package { $packagelist:
-    ensure => installed,
+    ensure => $package_version,
   }
   file { '/etc/pulp/server.conf':
     owner   => 'root',
