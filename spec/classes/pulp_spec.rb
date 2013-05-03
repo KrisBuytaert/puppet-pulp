@@ -192,7 +192,28 @@ describe 'pulp', :type => :class do
 
     let :params do {
         :pulp_version => '2',
-        :pulp_client  => true
+        :pulp_client  => true,
+        :package_version => '2.1.0'
+    }
+    end
+
+    it { should contain_package('pulp-agent').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-consumer-client').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-handlers').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-consumer-extensions').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-handlers').with( :ensure => '2.1.0') }
+  end
+
+  context 'Install specific package version of pulp v.2 administration client' do
+    let :facts do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_admin  => true,
+        :package_version => '2.1.0'
     }
     end
 
