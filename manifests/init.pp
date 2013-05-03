@@ -164,6 +164,7 @@ class pulp (
       class { 'pulp::client':
         pulp_server_host => $pulp_server_host,
         pulp_server_port => $pulp_server_port,
+        package_version  => $package_version,
         require          => Class['pulp::repo']
       }
     }
@@ -171,6 +172,7 @@ class pulp (
       class { 'pulp::admin':
         pulp_server_host => $pulp_server_host,
         pulp_server_port => $pulp_server_port,
+        package_version  => $package_version,
         require          => Class['pulp::repo']
       }
     }
