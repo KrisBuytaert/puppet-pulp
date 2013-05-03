@@ -184,7 +184,7 @@ describe 'pulp', :type => :class do
     it { should contain_package('pulp-puppet-plugins').with( :ensure => '2.1.0') }
   end
 
-  context 'Install default package version of pulp server version 2' do
+  context 'Install specific package version of pulp client version 2' do
     let :fact do {
         :osfamily => 'RedHat'
     }
@@ -192,14 +192,13 @@ describe 'pulp', :type => :class do
 
     let :params do {
         :pulp_version => '2',
-        :pulp_server  => true
+        :pulp_client  => true
     }
     end
 
-    it { should contain_package('pulp-server').with( :ensure => 'installed') }
-    it { should contain_package('pulp-selinux').with( :ensure => 'installed') }
-    it { should contain_package('pulp-rpm-plugins').with( :ensure => 'installed') }
-    it { should contain_package('pulp-puppet-plugins').with( :ensure => 'installed') }
+    it { should contain_package('pulp-admin-client').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-admin-extensions').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-admin-extensions').with( :ensure => '2.1.0') }
   end
 
 end
