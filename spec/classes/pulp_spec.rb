@@ -165,4 +165,61 @@ describe 'pulp', :type => :class do
     it { should contain_file('/etc/pulp/admin/admin.conf').with_content(/port\s=\s443/)}
   end
 
+  context 'Install specific package version of pulp server version 2' do
+    let :fact do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_server  => true,
+        :package_version => '2.1.0'
+    }
+    end
+
+    it { should contain_package('pulp-server').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-selinux').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-plugins').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-plugins').with( :ensure => '2.1.0') }
+  end
+
+  context 'Install specific package version of pulp client version 2' do
+    let :fact do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_client  => true,
+        :package_version => '2.1.0'
+    }
+    end
+
+    it { should contain_package('pulp-agent').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-consumer-client').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-handlers').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-consumer-extensions').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-handlers').with( :ensure => '2.1.0') }
+  end
+
+  context 'Install specific package version of pulp v.2 administration client' do
+    let :facts do {
+        :osfamily => 'RedHat'
+    }
+    end
+
+    let :params do {
+        :pulp_version => '2',
+        :pulp_admin  => true,
+        :package_version => '2.1.0'
+    }
+    end
+
+    it { should contain_package('pulp-admin-client').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-puppet-admin-extensions').with( :ensure => '2.1.0') }
+    it { should contain_package('pulp-rpm-admin-extensions').with( :ensure => '2.1.0') }
+  end
+
 end
