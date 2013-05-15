@@ -71,7 +71,9 @@ describe 'pulp', :type => :class do
     let :params do {
         :pulp_version => '2',
         :pulp_server  => true,
-        :mail_from => 'pulpadmin@example.net'
+        :mail_from => 'pulpadmin@example.net',
+        :default_login => 'administrator',
+        :default_password => 'password'
     }
     end
 
@@ -92,6 +94,8 @@ describe 'pulp', :type => :class do
     it { should contain_file('/etc/pulp/server.conf').with_content(/port:\s25/) }
     it { should contain_file('/etc/pulp/server.conf').with_content(/from:\spulpadmin@example.net/) }
     it { should contain_file('/etc/pulp/server.conf').with_content(/enabled:\sfalse/) }
+    it { should contain_file('/etc/pulp/server.conf').with_content(/default_login:\sadministrator/) }
+    it { should contain_file('/etc/pulp/server.conf').with_content(/default_password:\spassword/) }
 
     it { should contain_service('httpd').with( :ensure => 'running')}
     it { should contain_service('mongod').with( :ensure => 'running')}

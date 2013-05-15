@@ -60,6 +60,12 @@
 #   Set installation version e.g. 2.1.0, installed or latest.
 #   Current supported under pulp v2 only.
 #
+# [*default_login*]
+#   Set default login account for pulp-admin.
+#
+# [*default_password*]
+#   Set default password for for pulp-admin.
+#
 # == Actions
 #
 # == Requires
@@ -101,6 +107,8 @@
 #  * Add README.md content
 #
 class pulp (
+  $default_login     = 'admin',
+  $default_password  = 'admin',
   $pulp_version      = '1',
   $pulp_server       = false,
   $pulp_client       = false,
@@ -146,6 +154,8 @@ class pulp (
     }
     if $pulp_server == true {
       class { 'pulp::server':
+        default_login     => $default_login,
+        default_password  => $default_password,
         mail_enabled      => $mail_enabled,
         mail_host         => $mail_host,
         mail_from         => $mail_from,

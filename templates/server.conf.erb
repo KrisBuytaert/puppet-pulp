@@ -32,13 +32,17 @@ operation_retries: 2
 # debugging_mode: boolean; toggles Pulp's debugging capabilities
 
 [server]
-<% if pulp_server_host %>
+<% if pulp_server_host -%>
 server_name: <%= pulp_server_host %>
 <% end -%>
 key_url: /pulp/gpg
 ks_url: /pulp/ks
-default_login: admin
-default_password: admin
+<% if default_login -%>
+default_login: <%= default_login %>
+<% end -%>
+<% if default_password -%>
+default_password: <%= default_password %>
+<% end  -%>
 debugging_mode: false
 
 # = Security =
