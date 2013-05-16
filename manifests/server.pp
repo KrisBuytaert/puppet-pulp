@@ -50,6 +50,8 @@
 # == Todo
 #
 class pulp::server (
+  $default_login     = undef,
+  $default_password  = undef,
   $mail_enabled      = 'false',
   $mail_host         = 'localhost.localdomain',
   $mail_host_port    = '25',
