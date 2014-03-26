@@ -55,7 +55,7 @@ echo ""
 JSON="{\"filename\": {\"\$regex\": \"$PACKAGE\"},\"release\": {\"\$lt\": \"$OLDESTBUILD\"}}"
 
 # List packages
-$pulp_admin rpm repo content rpm --repo-id="$REPO" --before "$DELETION_DATE" --filters="$JSON"
+#$pulp_admin rpm repo content rpm --repo-id="$REPO" --before "$DELETION_DATE" --filters="$JSON"
 
 # Example
 # pa rpm repo content rpm --repo-id="my-private-repo" --before "2014-03-22" --filters='{"filename": {"$regex": "my-package"},"release":{"$lt": "37"}}'
