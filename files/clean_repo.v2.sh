@@ -19,7 +19,7 @@ if [ -z "$repo" ] || [ -z "$package" ] || [ -z "$deletion_date" ] || [ -z "$coun
     echo "-d (deletion_date)     delete packages before date (example: '1 month' '2 weeks' '1 year')";
     echo "-c (count)               number of builds to keep even if passed deletion date";
     echo ""
-    echo "Example: ./clean_pulp_package -r my-repository -p my-package -d \"1 month\" -c 20"
+    echo "Example: ./clean_repo -r my-repository -p my-package -d \"1 month\" -c 20"
     echo ""
     exit 1;
 fi
