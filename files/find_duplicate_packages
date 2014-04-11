@@ -1,0 +1,22 @@
+#!/bin/bash
+
+username='<username>';
+password='<password>';
+
+repository=$1;
+
+
+[ "$( echo $repository | tr A-Z a-z  )" == '-h' ] || [ "$repository" == '' ] && {
+
+  echo "Usage:";
+  echo "------";
+  echo "$0 -h           # This helpmessage";
+  echo "$0 <repository> # Runs through the repository"
+  exit 0;
+
+}
+
+pulp-admin --username=$username --password=$password rpm repo content rpm --repo-id=$repository --fields=name |
+  sed -n 's/^.*Name: *\(.*\)$/\1/p' |
+  sort |
+  uniq --count;

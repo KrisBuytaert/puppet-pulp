@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+UPLOADPATH=$1;
+REPO=$2;
+
+function try_to_remove_package {
+  upload_package=$1;
+
+  build_nr=$( echo $package | sed 's/.*-\([^-.]*\)\.[^\.]*.[^\.]*$/\1/g'; );
+
+  # try to remove any package with buildnr: (buildnr - 5)
+  guessed_version=$( expr $build_nr - 5; ) || { echo 'Could not guess version'; return;};
+  alternative=$( echo $package | sed "s/\(.*-\)\([^-.]*\)\(\.[^\.]*.[^\.]*\)$/\1${guessed_version}\3/g"; );
+  $pulp_admin rpm repo remove rpm --repo-id=$REPO --match="filename=$alternative";
+};
+
+pulp_admin='/usr/bin/pulp-admin';
+$pulp_admin login --user <username>  --password <password>
+
+cd ${UPLOADPATH}
+
+rpm_list=( $( ls *.rpm ) );
+
+did_something=1;
+
+for package in "${rpm_list[@]}"; do
+  did_something=0;
+  echo "Package: $package":
+  try_to_remove_package $package;
+  # now add the new version to the repository
+  $pulp_admin rpm repo uploads rpm --repo-id=$REPO --file $package;
+
+  # lastly remove the uploaded file...
+  rm $package -v;
+done;
+
+[ $did_something -eq 0 ] && $pulp_admin rpm repo publish run --repo-id=$REPO;
+
+$pulp_admin logout;

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Credentials
+username='<username>';
+password='<password>';
+
+[ -z $1 ] && {
+  echo 'You need to specify a match: f.e. name=puppet-hiera';
+  exit 1;
+};
+
+pulp_admin='/usr/bin/pulp-admin';
+match="$1";
+
+$pulp_admin login --username $username --password $password &&
+
+repository_list=(
+  $( $pulp_admin rpm repo list | sed -n 's/Id: *\([^ ]*\)/\1/p'; )
+);
+
+for repository in "${repository_list[@]}"; do
+  [ -z "$( $pulp_admin rpm repo content rpm --repo-id="$repository" --match="$match" | strings; )" ] ||
+  echo "$repository";
+done;
+
+$pulp_admin logout;
