@@ -17,7 +17,7 @@ function try_to_remove_package {
 };
 
 pulp_admin='/usr/bin/pulp-admin';
-$pulp_admin login --user <username>  --password <password>
+$pulp_admin login --user admin  --password admin
 
 cd ${UPLOADPATH}
 

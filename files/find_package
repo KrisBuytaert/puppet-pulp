@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Credentials
-username='<username>';
-password='<password>';
+username='admin';
+password='admin';
 
 [ -z $1 ] && {
   echo 'You need to specify a match: f.e. name=puppet-hiera';
