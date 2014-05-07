@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+PACKAGE=$1;
+DESTREPO=$2;
+
+pulp_admin='/usr/bin/pulp-admin';
+$pulp_admin login --user admin  --password admin
+
+$pulp_admin rpm repo copy rpm --match='filename=$PACKAGE' \
+                    --from-repo-id='mds-dev-mediasalsa' \
+                    --to-repo-id='$DESTREPO';
+                    
+$pulp_admin rpm repo publish run --repo-id=$REPO;
+$pulp_admin logout;
