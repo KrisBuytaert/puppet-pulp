@@ -36,6 +36,6 @@ for package in "${rpm_list[@]}"; do
   rm $package -v;
 done;
 
-[ $did_something -eq 0 ] && $pulp_admin rpm repo publish run --repo-id=$DESTREPO;
+[ $did_something -eq 0 ] && $pulp_admin rpm repo publish run --repo-id=$REPO;
 
 $pulp_admin logout;
