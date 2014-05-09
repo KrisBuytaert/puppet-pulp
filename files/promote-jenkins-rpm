@@ -3,13 +3,14 @@
 set -e
 
 PACKAGE=$1;
-DESTREPO=$2;
+SRCREPO=$2;
+DESTREPO=$3;
 
 pulp_admin='/usr/bin/pulp-admin';
 $pulp_admin login --user admin  --password admin
 
 $pulp_admin rpm repo copy rpm --match='filename=$PACKAGE' \
-                    --from-repo-id='mds-dev-mediasalsa' \
+                    --from-repo-id='$SRCREPO' \
                     --to-repo-id='$DESTREPO';
 
 $pulp_admin rpm repo publish run --repo-id=$DESTREPO;
