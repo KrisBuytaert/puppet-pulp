@@ -9,6 +9,8 @@ DESTREPO=$3;
 pulp_admin='/usr/bin/pulp-admin';
 $pulp_admin login --user admin  --password admin
 
+$pulp_admin rpm repo remove rpm --repo-id "${DESTREPO}" --match "filename=${PACKAGE}"
+
 $pulp_admin rpm repo copy rpm --match="filename=${PACKAGE}" \
                     --from-repo-id="${SRCREPO}" \
                     --to-repo-id="${DESTREPO}";
