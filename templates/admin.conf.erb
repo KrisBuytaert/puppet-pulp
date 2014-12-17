@@ -3,6 +3,9 @@
 host = <%= pulp_server_host %>
 port = <%= pulp_server_port %>
 api_prefix = /pulp/api
+<% if @verify_ssl -%>
+verify_ssl = <%= verify_ssl %>
+<% end -%>
 
 # Maximum amount of data (in bytes) sent for an upload in a single request
 upload_chunk_size = 1048576

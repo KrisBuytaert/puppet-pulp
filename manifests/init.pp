@@ -114,7 +114,8 @@ class pulp (
   $qpid_server       = 'localhost.localdomain',
   $qpid_port         = '5672',
   $migrate_attempts  = '3',
-  $migrate_wait_secs = '5'
+  $migrate_wait_secs = '5',
+  $verify_ssl        = undef
 ) {
 
   #Validation
@@ -165,6 +166,7 @@ class pulp (
       class { 'pulp::admin':
         pulp_server_host => $pulp_server_host,
         pulp_server_port => $pulp_server_port,
+        verify_ssl       => $verify_ssl,
         require          => Class['pulp::repo']
       }
     }
