@@ -9,11 +9,14 @@ DESTREPO=$3;
 pulp_admin='/usr/bin/pulp-admin';
 $pulp_admin login --user admin  --password admin
 
+echo "Check ${DESTREPO} for duplicate package"
 $pulp_admin rpm repo remove rpm --repo-id "${DESTREPO}" --match "filename=${PACKAGE}"
 
+echo "Copy ${PACKAGE} from ${SRCREPO} to ${DESTREPO}"
 $pulp_admin rpm repo copy rpm --match="filename=${PACKAGE}" \
                     --from-repo-id="${SRCREPO}" \
                     --to-repo-id="${DESTREPO}";
 
+echo "Publish ${DESTREPO}"
 $pulp_admin rpm repo publish run --repo-id=$DESTREPO;
 $pulp_admin logout;
