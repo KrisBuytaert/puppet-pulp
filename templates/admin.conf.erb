@@ -1,7 +1,7 @@
 [server]
 
-host = <%= pulp_server_host %>
-port = <%= pulp_server_port %>
+host = <%= @pulp_server_host %>
+port = <%= @pulp_server_port %>
 api_prefix = /pulp/api
 <% if @verify_ssl -%>
 verify_ssl = <%= @verify_ssl %>
